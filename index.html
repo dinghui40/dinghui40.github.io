@@ -1584,7 +1584,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-06-09 10:40:04" itemprop="dateModified" datetime="2022-06-09T10:40:04+08:00">2022-06-09</time>
+                <time title="修改时间：2022-06-09 11:05:33" itemprop="dateModified" datetime="2022-06-09T11:05:33+08:00">2022-06-09</time>
               </span>
 
           
@@ -1599,6 +1599,8 @@
 
       
           <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ceph分配资源过小问题</span><br><span class="line">查找</span><br><span class="line">kubectl get sc rook-ceph</span><br><span class="line">kubectl describe   sc rook-cephfs</span><br><span class="line">加入</span><br><span class="line">kubectl edit sc rook-cephfs -n rook-ceph</span><br><span class="line">allowVolumeExpansion: True</span><br><span class="line">命令行</span><br><span class="line">kubectl exec -ti &lt;pod名&gt; -- df -kh |grep var</span><br><span class="line">kubectl patch pvc &lt;pvc名&gt; -p &#x27;&#123;&quot;spec&quot;: &#123;&quot;resources&quot;: &#123;&quot;requests&quot;: &#123;&quot;storage&quot;: &quot;5Gi&quot;&#125;&#125;&#125;&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">所有问题排查</span><br><span class="line">https://access.redhat.com/documentation/zh-cn/red_hat_ceph_storage/5/pdf/troubleshooting_guide/red_hat_ceph_storage-5-troubleshooting_guide-zh-cn.pdf</span><br></pre></td></tr></table></figure>
 
 <p>视频：<a target="_blank" rel="noopener" href="https://asciinema.org/a/351920">https://asciinema.org/a/351920</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ceph遇到pod重启一直显示ContainerCreating</span><br><span class="line">检查ceph集群是否正常</span><br></pre></td></tr></table></figure>
