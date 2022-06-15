@@ -20,21 +20,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Docker push fails with “file integrity checksum failed” seemingly at random 出错的镜像重新构建就可以了（问题是构建失败）">
+  <meta name="description" content="1234567891011查看gfs状态：kubectl get pod -n default  -o widekubectl exec -it pod -n default *3gluster peer statusgluster volume statusgluster volume info挂载gfs：grctl查看存储mount | grep 存储位置mount -t glusterfs">
 <meta property="og:type" content="article">
-<meta property="og:title" content="导入导出问题">
-<meta property="og:url" content="http://example.com/2022/06/07/%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:title" content="gfs排查">
+<meta property="og:url" content="http://example.com/2022/06/15/gfs%E6%8E%92%E6%9F%A5/index.html">
 <meta property="og:site_name" content="记点笔记ye~">
-<meta property="og:description" content="Docker push fails with “file integrity checksum failed” seemingly at random 出错的镜像重新构建就可以了（问题是构建失败）">
+<meta property="og:description" content="1234567891011查看gfs状态：kubectl get pod -n default  -o widekubectl exec -it pod -n default *3gluster peer statusgluster volume statusgluster volume info挂载gfs：grctl查看存储mount | grep 存储位置mount -t glusterfs">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="c:/Users/Administrator/AppData/Roaming/Typora/typora-user-images/image-20220607162554488.png">
-<meta property="article:published_time" content="2022-06-07T07:17:32.000Z">
-<meta property="article:modified_time" content="2022-06-07T08:26:16.355Z">
+<meta property="article:published_time" content="2022-06-15T04:46:45.000Z">
+<meta property="article:modified_time" content="2022-06-15T07:07:08.095Z">
 <meta property="article:author" content="丁辉滴小窝">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="c:/Users/Administrator/AppData/Roaming/Typora/typora-user-images/image-20220607162554488.png">
 
-<link rel="canonical" href="http://example.com/2022/06/07/%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E9%97%AE%E9%A2%98/">
+<link rel="canonical" href="http://example.com/2022/06/15/gfs%E6%8E%92%E6%9F%A5/">
 
 
 <script id="page-configurations">
@@ -47,7 +45,7 @@
   };
 </script>
 
-  <title>导入导出问题 | 记点笔记ye~</title>
+  <title>gfs排查 | 记点笔记ye~</title>
   
 
 
@@ -152,7 +150,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/07/%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E9%97%AE%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/15/gfs%E6%8E%92%E6%9F%A5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -165,7 +163,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          导入导出问题
+          gfs排查
         </h1>
 
         <div class="post-meta">
@@ -176,7 +174,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-06-07 15:17:32 / 修改时间：16:26:16" itemprop="dateCreated datePublished" datetime="2022-06-07T15:17:32+08:00">2022-06-07</time>
+              <time title="创建时间：2022-06-15 12:46:45 / 修改时间：15:07:08" itemprop="dateCreated datePublished" datetime="2022-06-15T12:46:45+08:00">2022-06-15</time>
             </span>
 
           
@@ -190,8 +188,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Docker-push-fails-with-“file-integrity-checksum-failed”-seemingly-at-random"><a href="#Docker-push-fails-with-“file-integrity-checksum-failed”-seemingly-at-random" class="headerlink" title="Docker push fails with “file integrity checksum failed” seemingly at random"></a>Docker push fails with “file integrity checksum failed” seemingly at random</h1><p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220607162554488.png" alt="image-20220607162554488"></p>
-<p>出错的镜像重新构建就可以了（问题是构建失败）</p>
+        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">查看gfs状态：</span><br><span class="line">kubectl get pod -n default  -o wide</span><br><span class="line">kubectl exec -it pod -n default *3</span><br><span class="line">gluster peer status</span><br><span class="line">gluster volume status</span><br><span class="line">gluster volume info</span><br><span class="line"></span><br><span class="line">挂载gfs：</span><br><span class="line">grctl查看存储</span><br><span class="line">mount | grep 存储位置</span><br><span class="line">mount -t glusterfs ip:/存储位置  /挂载位置</span><br></pre></td></tr></table></figure>
+
 
     </div>
 
@@ -207,13 +205,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/06/07/ceph%E9%97%AE%E9%A2%98/" rel="prev" title="ceph所遇到的问题">
-      <i class="fa fa-chevron-left"></i> ceph所遇到的问题
+    <a href="/2022/06/10/rainbond%E8%BF%81%E7%A7%BB%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="prev" title="rainbond迁移数据库">
+      <i class="fa fa-chevron-left"></i> rainbond迁移数据库
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/06/08/vscod%E5%B8%B8%E7%94%A8%E8%AE%B0%E5%BD%95/" rel="next" title="vscod常用记录">
-      vscod常用记录 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -272,7 +267,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-push-fails-with-%E2%80%9Cfile-integrity-checksum-failed%E2%80%9D-seemingly-at-random"><span class="nav-number">1.</span> <span class="nav-text">Docker push fails with “file integrity checksum failed” seemingly at random</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
