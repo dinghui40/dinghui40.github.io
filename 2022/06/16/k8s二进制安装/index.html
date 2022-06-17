@@ -30,7 +30,7 @@
 <meta property="og:description" content="运行高效">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-06-16T09:20:50.000Z">
-<meta property="article:modified_time" content="2022-06-16T16:15:21.617Z">
+<meta property="article:modified_time" content="2022-06-17T02:23:20.476Z">
 <meta property="article:author" content="丁辉滴小窝">
 <meta name="twitter:card" content="summary">
 
@@ -197,7 +197,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-06-17 00:15:21" itemprop="dateModified" datetime="2022-06-17T00:15:21+08:00">2022-06-17</time>
+                <time title="修改时间：2022-06-17 10:23:20" itemprop="dateModified" datetime="2022-06-17T10:23:20+08:00">2022-06-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -221,7 +221,7 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
               </span>
-              <span>5k</span>
+              <span>5.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -252,7 +252,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line"></span><br><span class="line">yum install -y yum-utils device-mapper-persistent-data lvm2</span><br><span class="line"></span><br><span class="line">yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br><span class="line"></span><br><span class="line">sed -i -e <span class="string">&#x27;/mirrors.cloud.aliyuncs.com/d&#x27;</span> -e <span class="string">&#x27;/mirrors.aliyuncs.com/d&#x27;</span> /etc/yum.repos.d/CentOS-Base.repo</span><br><span class="line"></span><br><span class="line">yum install -y  wget jq psmisc vim net-tools telnet </span><br></pre></td></tr></table></figure>
 
 <p>关闭防火墙</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">disable</span> --now firewalld</span><br><span class="line">systemctl <span class="built_in">disable</span> --now dnsmasq</span><br><span class="line">systemctl <span class="built_in">disable</span> --now NetworkManager</span><br><span class="line">setenforce 0</span><br><span class="line">sed -i   <span class="string">&#x27;s/SELINUX=enforcing/SELINUX=disabled/&#x27;</span> /etc/sysconfig/selinux </span><br><span class="line">sed -i   <span class="string">&#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27;</span> /etc/selinux/config</span><br><span class="line">缺认状态</span><br><span class="line">sed -i   <span class="string">&#x27;s#SELINUX=enforcing#SELINUX=disabled#g&#x27;</span> /etc/selinux/config</span><br><span class="line">getenforce</span><br><span class="line">显示：Disabled</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">disable</span> --now firewalld</span><br><span class="line">systemctl <span class="built_in">disable</span> --now dnsmasq</span><br><span class="line">systemctl <span class="built_in">disable</span> --now NetworkManager</span><br><span class="line">setenforce 0</span><br><span class="line">sed -i   <span class="string">&#x27;s/SELINUX=enforcing/SELINUX=disabled/&#x27;</span> /etc/sysconfig/selinux </span><br><span class="line">sed -i   <span class="string">&#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27;</span> /etc/selinux/config</span><br><span class="line">缺认状态</span><br><span class="line">getenforce</span><br><span class="line">显示：Disabled</span><br></pre></td></tr></table></figure>
 
 <p>关闭swap分区</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">swapoff -a</span><br><span class="line">sysctl -w vm.swappiness=0</span><br><span class="line">sed -i <span class="string">&#x27;/ swap / s/^\(.*\)$/#\1/g&#x27;</span> /etc/fstab</span><br></pre></td></tr></table></figure>
@@ -267,7 +267,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> k8s-master k8s-node1 k8s-node2;<span class="keyword">do</span> ssh-copy-id -i .ssh/id_rsa.pub <span class="variable">$i</span>;<span class="keyword">done</span></span><br></pre></td></tr></table></figure>
 
 <p>git</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum  -y install git</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/dotbali/k8s-ha-install.git</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum  -y install git</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/dotbalo/k8s-ha-install.git</span><br></pre></td></tr></table></figure>
 
 <p>更新内核</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">yum update -y --exclude=kernel*  &amp;&amp;  reboot</span><br><span class="line"></span><br><span class="line">wget http://193.49.22.109/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-devel-4.19.12-1.el7.elrepo.x86_64.rpm</span><br><span class="line"></span><br><span class="line">wget http://193.49.22.109/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-4.19.12-1.el7.elrepo.x86_64.rpm</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> k8s-master k8s-node1 k8s-node2;<span class="keyword">do</span> scp kernel-ml-devel-4.19.12-1.el7.elrepo.x86_64.rpm kernel-ml-4.19.12-1.el7.elrepo.x86_64.rpm <span class="variable">$i</span>:/root/ ;<span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">yum localinstall -y kernel-ml*</span><br><span class="line">grub2-set-default 0 &amp;&amp; grub2-mkconfig -o /etc/grub2.cfg </span><br><span class="line"></span><br><span class="line">grubby --args=<span class="string">&quot;user_namespace.enable=1&quot;</span> --update-kernel=<span class="string">&quot;(grubby --default-kernel)&quot;</span></span><br><span class="line">grubby --default-kernel</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
@@ -305,6 +305,8 @@
 
 <p>切换分支</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git branch -a</span><br><span class="line">cd k8s-ha-install &amp;&amp; git checkout manual-installation-v1.20.x</span><br></pre></td></tr></table></figure>
+
+<h5 id="生成证书"><a href="#生成证书" class="headerlink" title="生成证书"></a>生成证书</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wget &quot;https//pkg.cfssl.org/R1.2/cfssl_linux-amd64&quot; -O /usr/local/bin/cfssl</span><br><span class="line"></span><br><span class="line">wget &quot;https//pkg.cfssl.org/R1.2/cfssljson_linux-amd64&quot; -O /usr/local/bin/cfssljson</span><br><span class="line"></span><br><span class="line">chmod -x /usr/local/bin/cfssl /usr/local/bin/cfssljson</span><br><span class="line"></span><br><span class="line">#master节点创建etcd证书目录</span><br><span class="line">mkdir /etc/etcd/ssl -p</span><br><span class="line"></span><br><span class="line">所有节点创建kubernetes相关目录</span><br><span class="line">mkdir -p /etc/kubernetes/pki</span><br></pre></td></tr></table></figure>
 
 
     </div>
@@ -443,7 +445,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">配置环境</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%89%E8%A3%85docker"><span class="nav-number">2.</span> <span class="nav-text">安装docker</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%89%E8%A3%85k8s"><span class="nav-number">3.</span> <span class="nav-text">安装k8s</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">配置环境</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%89%E8%A3%85docker"><span class="nav-number">2.</span> <span class="nav-text">安装docker</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%89%E8%A3%85k8s"><span class="nav-number">3.</span> <span class="nav-text">安装k8s</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E8%AF%81%E4%B9%A6"><span class="nav-number">4.</span> <span class="nav-text">生成证书</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -533,7 +535,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共14.5k字</span>
+  <span class="post-count">博客全站共14.6k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
