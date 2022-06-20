@@ -2,6 +2,7 @@
 title: vscod常用记录
 date: 2022-06-08 11:05:20
 tags:
+categories: 系统优化
 ---
 
 高效使用方式

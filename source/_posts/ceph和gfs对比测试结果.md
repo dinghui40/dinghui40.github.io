@@ -2,6 +2,7 @@
 title: ceph和gfs对比测试结果
 date: 2022-06-09 10:28:13
 tags:
+categories: 存储
 ---
 
 ##### 存储性能测试

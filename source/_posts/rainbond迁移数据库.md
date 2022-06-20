@@ -2,6 +2,7 @@
 title: rainbond迁移数据库
 date: 2022-06-10 17:23:31
 tags:
+categories: rainbond
 ---
 
 气死人的一次

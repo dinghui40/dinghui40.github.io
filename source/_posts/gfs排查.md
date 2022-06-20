@@ -2,6 +2,7 @@
 title: gfs排查
 date: 2022-06-15 12:46:45
 tags:
+categories: 存储
 ---
 
 k8s-gfs

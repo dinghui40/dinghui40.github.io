@@ -2,6 +2,7 @@
 title: ceph存储
 date: 2022-06-07 09:28:07
 tags:
+categories: 存储
 ---
 
 ## 部署Rook-ceph存储

@@ -2,6 +2,7 @@
 title: ceph所遇到的问题
 date: 2022-06-07 14:20:21
 tags:
+categories: 存储
 ---
 
 Ceph运维中所遇到的问题

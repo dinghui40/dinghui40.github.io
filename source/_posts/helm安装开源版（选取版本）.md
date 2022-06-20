@@ -2,6 +2,7 @@
 title: helm安装开源版（选取版本）
 date: 2022-06-07 09:29:23
 tags:
+categories: rainbond
 ---
 
 rainbond-helm安装
