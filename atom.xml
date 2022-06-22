@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-06-22T02:26:38.503Z</updated>
+  <updated>2022-06-22T05:42:16.283Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>docker二进制安装</title>
+    <link href="http://example.com/2022/06/22/docker%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E8%A3%85/"/>
+    <id>http://example.com/2022/06/22/docker%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E8%A3%85/</id>
+    <published>2022-06-22T05:39:26.000Z</published>
+    <updated>2022-06-22T05:42:16.283Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文主要提示docker创建systemctl启动脚本</p><span id="more"></span><h3 id="1-安装docker"><a href="#1-安装docker" class="headerlink" title=".1.安装docker"></a>.1.安装docker</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1.解压二进制包</span><br><span class="line">tar zxf docker-***.tgz</span><br><span class="line"></span><br><span class="line">2.将可执行命令移动到系统路径</span><br><span class="line"><span class="built_in">mv</span> docker/* /usr/bin</span><br><span class="line"></span><br><span class="line">3.创建配置文件</span><br><span class="line"><span class="built_in">mkdir</span> /etc/docker</span><br><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">此处省略---</span><br></pre></td></tr></table></figure><h3 id="4-2-为docker创建systemctl启动脚本"><a href="#4-2-为docker创建systemctl启动脚本" class="headerlink" title="4.2.为docker创建systemctl启动脚本"></a>4.2.为docker创建systemctl启动脚本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">1.编写启动脚本</span><br><span class="line">vim /usr/lib/systemd/system/docker.service</span><br><span class="line">[Unit]</span><br><span class="line">Description=Docker Application Container Engine</span><br><span class="line">Documentation=https://docs.docker.com</span><br><span class="line">After=network-online.target firewalld.service</span><br><span class="line">Wants=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line">ExecStart=/usr/bin/dockerd</span><br><span class="line">ExecReload=/bin/kill -s HUP </span><br><span class="line">LimitNOFILE=infinity</span><br><span class="line">LimitNPROC=infinity</span><br><span class="line">LimitCORE=infinity</span><br><span class="line">TimeoutStartSec=0</span><br><span class="line">Delegate=<span class="built_in">yes</span></span><br><span class="line">KillMode=process</span><br><span class="line">Restart=on-failure</span><br><span class="line">StartLimitBurst=3</span><br><span class="line">StartLimitInterval=60s</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line"></span><br><span class="line">2.启动docker</span><br><span class="line">systemctl daemon-reload </span><br><span class="line">systemctl start docker</span><br><span class="line">systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;本文主要提示docker创建systemctl启动脚本&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="docker" scheme="http://example.com/categories/docker/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>ubuntu常用操作</title>
@@ -373,25 +392,6 @@
     
     
     <category term="系统优化" scheme="http://example.com/categories/%E7%B3%BB%E7%BB%9F%E4%BC%98%E5%8C%96/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>磁盘扩容</title>
-    <link href="http://example.com/2022/06/07/%E7%A3%81%E7%9B%98%E6%89%A9%E5%AE%B9/"/>
-    <id>http://example.com/2022/06/07/%E7%A3%81%E7%9B%98%E6%89%A9%E5%AE%B9/</id>
-    <published>2022-06-07T01:07:59.000Z</published>
-    <updated>2022-06-20T05:41:53.496Z</updated>
-    
-    <content type="html"><![CDATA[<p>扩容磁盘过程</p><span id="more"></span><p>1.添加物理磁盘</p><p>2.查看磁盘并创建</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">lsblk -f</span><br><span class="line">lsblk -l</span><br><span class="line">查看要扩展分区的格式</span><br><span class="line"></span><br><span class="line">创建卷</span><br><span class="line">fdisk /dev/新磁盘</span><br><span class="line">n</span><br><span class="line">p</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">各种完成之后</span><br><span class="line">t</span><br><span class="line">格式 列：8e</span><br><span class="line">w</span><br><span class="line"></span><br><span class="line">重启系统reboot（生效可忽略）</span><br><span class="line"></span><br><span class="line">创建pv</span><br><span class="line">pvcreate /dev/新磁盘1</span><br><span class="line"></span><br><span class="line">使用pvdisplay命令查看</span><br><span class="line">ubuntu是：PV Name   $x</span><br><span class="line">centos是：VG Name   $x</span><br><span class="line">vgextend $x  /dev/新磁盘1</span><br><span class="line">vgdisplay查看信息</span><br><span class="line">lvresize -L +120G /dev/mapper/$x-root</span><br><span class="line">resize2fs /dev/mapper/$x-root</span><br><span class="line">df -h </span><br><span class="line">mount |grep root</span><br><span class="line">xfs_growfs /dev/mapper/$x-root</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;扩容磁盘过程&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="存储" scheme="http://example.com/categories/%E5%AD%98%E5%82%A8/"/>
     
     
   </entry>
