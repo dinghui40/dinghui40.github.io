@@ -9,6 +9,15 @@ categories: rainbond
 
 <!-- more -->
 
+快捷指令
+
+```
+alias k='kubectl'
+k='kubectl -n rbd-system'
+```
+
+
+
 # 操作命令
 
 ```
@@ -103,5 +112,15 @@ kubectl delete po  -l name=rbd-api -n rbd-system
 
 ```
 kubectl edit rbdcomponents rbd-worker -n rbd-system
+```
+
+# 查看控制器
+
+```
+kubectl get rainbondcluster rainbondcluster -n rbd-system -oyaml
+
+k get rainbondvolume rainbondvolumerwx -oyaml
+
+k describe rbdcomponent
 ```
 

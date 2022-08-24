@@ -23,3 +23,11 @@ mount | grep 存储位置
 mount -t glusterfs ip:/存储位置  /挂载位置
 ```
 
+重启pod
+
+```
+kubectl get pod -n default -o wide
+cd /data && df -Th .
+kubectl delete pod   那三个pod   -n default 
+```
+
