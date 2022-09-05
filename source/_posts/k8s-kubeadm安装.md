@@ -9,147 +9,110 @@ k8s-1.8安装
 
 <!-- more -->
 
-```bash
-#关闭防火墙
-systemctl disable --now firewalld  && systemctl disable --now dnsmasq
+# kubeadm-centos7-containerd-k8s安装
 
-systemctl disable --now NetworkManager  ###centos8无需关闭
+[阿里云yum源加速地址](https://developer.aliyun.com/mirror/) > 点击容器 > 点击Kubernetes
 
-setenforce 0
+[官网网络插件列表](https://kubernetes.io/zh-cn/docs/concepts/cluster-administration/addons/#networking-and-network-policy)
 
-#关闭沙盒
-sed -i "s/^SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
-###或
-#sed -i   's/SELINUX=enforcing/SELINUX=disabled/' /etc/sysconfig/selinux 
-#sed -i   's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
-
-#关闭swap分区
-swapoff -a && sysctl -w vm.swappiness=0 && sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
-```
+### 准备：
 
 ```bash
-#时间同步
-yum -y install ntpdate  && ntpdate -b ntp.aliyun.com;hwclock -w;
-#定时任务
-crontab -e
-0 1 * * *  /usr/sbin/ntpdate -b ntp.aliyun.com;hwclock -w; 
+#环境准备
+systemctl srop firewalld
+sudo setenforce 0
 
-###或
-#rpm -ivh http://mirrors.wlnmp.com/centos/wlnmp-release-centos.noarch.rpm
-#yum install wntp -y 
-#ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-#echo "Asia/Shanghai" > /etc/timezone
-#ntpdate time2.aliyun.com
-#crontab -e
-#*/5 * * * * ntpdate time2.aliyun.com
-```
+#禁用selinux and swap
+sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+swapoff -a
+sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
-```bash
-#修改limit值
-#ulimit -SHn 65535
-
-#可以改此文件
-#vi /etc/security/limits.conf
-```
-
-```bash
-#配置密钥并导入其他节点
-cat >>/etc/hosts<<'EOF'
-1.1.1.1 k8s-master
-1.1.1.2 k8s-node1
-1.1.1.3 k8s-node2
+#加载内核模块
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
 EOF
 
-ssh-keygen -t rsa
+sudo sysctl --system
 
-for i in node1 node2 node3;do ssh-copy-id -i .ssh/id_rsa.pub $i;done
-```
-
-```bash
-#拉取yum源
-#阿里云
-yum install -y wget && mkdir /etc/yum.repos.d/bak && mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/bak
-
-#wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.cloud.tencent.com/repo/centos7_base.repo
-#wget -O /etc/yum.repos.d/epel.repo http://mirrors.cloud.tencent.com/repo/epel-7.repo
-
-wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
-
-yum clean all && yum makecache && yum -y update
-
-yum install -y yum-utils device-mapper-persistent-data lvm2
-
-yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-
-#sed -i -e '/mirrors.cloud.aliyuncs.com/d' -e '/mirrors.aliyuncs.com/d' /etc/yum.repos.d/CentOS-Base.repo
-
-
-#docker源
-wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo
-```
-
-```bash
-yum  install ipvsadm ipset sysstat conntrack libseccomp -y
-```
-
-```bash
-#修改内核参数
-cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
 overlay
 br_netfilter
 EOF
 
 sudo modprobe overlay
 sudo modprobe br_netfilter
-
-cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
-net.bridge.bridge-nf-call-ip6tables = 1
-net.bridge.bridge-nf-call-iptables = 1
-net.ipv4.ip_nonlocal_bind = 1
-net.ipv4.ip_forward = 1
-vm.swappiness = 0
-EOF
-sudo sysctl --system
-
-modprobe -- nf_conntrack_ipv4 >/dev/null 2>&1
-if [ $? -eq 0 ];then
-nf_conntrack_module=nf_conntrack_ipv4
-else
-nf_conntrack_module=nf_conntrack
-fi
-
-cat > /etc/sysconfig/modules/ipvs.modules <<EOF
-#!/bin/bash
-modprobe -- ip_vs
-modprobe -- ip_vs_rr
-modprobe -- ip_vs_wrr
-modprobe -- ip_vs_sh
-modprobe -- ${nf_conntrack_module}
-modprobe -- rbd
-EOF
-
-chmod 755 /etc/sysconfig/modules/ipvs.modules
-bash /etc/sysconfig/modules/ipvs.modules
 ```
 
+### 开始部署：
 
+kubelet加入开机自启并启动 > 导出k8s初始化文件
 
+```
+systemctl enable kubelet && systemctl start kubelet
+kubeadm config print init-defaults > k8sinit.yaml
+```
 
+修改文件
+
+```
+vim k8sinit.yaml
+```
+
+主要修改这几个位置
+
+```
+advertiseAddress: $IP
+name: $Name
+kubernetesVersion: $默认版本
+serviceSubnet: $IP
+imageRepository: registry.aliyuncs.com/google_containers
+```
+
+配置命令补全和简化
+
+```
+vim ~/.bashrc
+```
+
+```
+source <(crictl completion bash)
+source <(kubectl completion bash)
+source <(kubeadm completion bash)
+alias k="kubectl"
+```
+
+```
+source /root/.bashrc
+```
+
+开始安装
+
+```
+kubeadm init --config=k8sinit.yaml
+```
+
+安装完成配置 kubectl config
+
+> 有可能和生成的不一致，请按照安装完成后提示的操作
+
+```
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+export KUBECONFIG=/etc/kubernetes/admin.conf
+```
+
+加入集群生成token
 
 ```bash
-#阿里云k8s源
-cat <<EOF > /etc/yum.repos.d/kubernetes.repo
-[kubernetes]
-name=Kubernetes
-baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
-enabled=1
-gpgcheck=1
-repo_gpgcheck=1
-gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
-EOF
-setenforce 0
-yum install -y kubelet kubeadm kubectl
-systemctl enable kubelet && systemctl start kubelet
-#由于官网未开放同步方式, 可能会有索引gpg检查失败的情况, 这时请用 yum install -y --nogpgcheck kubelet kubeadm kubectl 安装
+kubeadm token create --ttl 0 --print-join-command
+```
+
+添加网络（按需要修改网络配置）这里网络使用的flannel
+
+```
+kubectl apply -f https://ghproxy.com/raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
 ```
 
